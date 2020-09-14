@@ -1,7 +1,5 @@
 const express = require("express");
 const projectsModel = require("../../data/helpers/projectModel.js");
-const actionsModel = require("../../data/helpers/actionModel.js");
-const { remove } = require("../../data/helpers/actionModel.js");
 
 const router = express.Router();
 
