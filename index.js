@@ -14,7 +14,7 @@ Go code!
 */
 const server = require("./server.js");
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 server.listen(port, () => {
     `server is running on port ${port}`;

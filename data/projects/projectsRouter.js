@@ -21,12 +21,12 @@ router.post("/", (req, res) => {
         .then((project) => {
             res.status(201).json(project);
         })
-        .catch((error) => {
+        .catch(() => {
             res.status(404).json({ message: "Could not add new project." });
         });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateProjectId, (req, res) => {
     projectsModel
         .update(req.params.id, req.body)
         .then((project) => {
@@ -36,18 +36,18 @@ router.put("/:id", (req, res) => {
                 res.status(404).json({ message: "Could not make changes." });
             }
         })
-        .catch((error) => {
+        .catch(() => {
             res.status(404).json({ message: "Could not find the project." });
         });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateProjectId, (req, res) => {
     projectsModel
         .remove(req.params.id)
-        .then((project) => {
+        .then(() => {
             res.status(200).json({ message: "Project successfully deleted." });
         })
-        .catch((error) => {
+        .catch(() => {
             res.status(404).json({ message: "Could not find the project." });
         });
 });
@@ -62,5 +62,22 @@ router.get("/:id/actions", (req, res) => {
             res.status(404).json({ message: "Could not find the project id." });
         });
 });
+
+//middleware
+function validateProjectId(req, res, next) {
+    projectsModel.get(req.params.id)
+        .then((project) => {
+            if (project) {
+                req.project = project;
+                next();
+            } else {
+                res.status({ code: 400, message: "invalid project id" });
+                next();
+            }
+        })
+        .catch(() => {
+            res.status(400).json({ message: "invalid project id." });
+        });
+}
 
 module.exports = router;
