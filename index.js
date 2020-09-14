@@ -14,6 +14,7 @@ Go code!
 */
 const server = require("./server.js");
 
+//add the port variable for .env file
 const port = process.env.PORT || 4000;
 
 server.listen(port, () => {
