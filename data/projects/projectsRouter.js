@@ -54,4 +54,15 @@ router.delete("/:id", (req, res) => {
         });
 });
 
+router.get("/:id/actions", (req, res) => {
+    projectsModel
+        .getProjectActions(req.params.id)
+        .then((project) => {
+            res.status(200).json(project);
+        })
+        .catch((error) => {
+            res.status(404).json({ message: "Could not find the project id." });
+        });
+});
+
 module.exports = router;
