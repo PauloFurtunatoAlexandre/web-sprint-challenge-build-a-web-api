@@ -27,7 +27,20 @@ router.post("/", (req, res) => {
         });
 });
 
-// router.put();
+router.put("/:id", (req, res) => {
+    projectsModel
+        .update(req.params.id, req.body)
+        .then((project) => {
+            if (project) {
+                res.status(201).json(project);
+            } else {
+                res.status(404).json({ message: "Could not make changes." });
+            }
+        })
+        .catch((error) => {
+            res.status(404).json({ message: "Could not find the project." });
+        });
+});
 
 // router.delete();
 
