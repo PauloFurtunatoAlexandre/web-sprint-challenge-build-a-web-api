@@ -1,6 +1,7 @@
 const express = require("express");
 const projectsModel = require("../../data/helpers/projectModel.js");
 const actionsModel = require("../../data/helpers/actionModel.js");
+const { remove } = require("../../data/helpers/actionModel.js");
 
 const router = express.Router();
 
@@ -42,6 +43,15 @@ router.put("/:id", (req, res) => {
         });
 });
 
-// router.delete();
+router.delete("/:id", (req, res) => {
+    projectsModel
+        .remove(req.params.id)
+        .then((project) => {
+            res.status(200).json({ message: "Project successfully deleted." });
+        })
+        .catch((error) => {
+            res.status(404).json({ message: "Could not find the project." });
+        });
+});
 
 module.exports = router;
